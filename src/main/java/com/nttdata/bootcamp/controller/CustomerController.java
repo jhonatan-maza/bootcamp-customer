@@ -21,7 +21,7 @@ import reactor.core.publisher.Mono;
 
 //@Slf4j
 @RestController
-@RequestMapping(value = "v1/api/customer")
+@RequestMapping(value = "customer")
 public class CustomerController {
 	
 	//private static Logger LOGGER = Logger.getLogger(CustomerController.class);

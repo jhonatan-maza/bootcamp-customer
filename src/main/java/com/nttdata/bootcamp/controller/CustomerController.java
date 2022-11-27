@@ -1,5 +1,6 @@
 package com.nttdata.bootcamp.controller;
 
+import com.mongodb.DuplicateKeyException;
 import com.nttdata.bootcamp.entity.enums.Status;
 import com.nttdata.bootcamp.entity.serverResponse.Error;
 import com.nttdata.bootcamp.entity.serverResponse.ServerResponse;
@@ -28,14 +29,20 @@ public class CustomerController {
 	@Autowired
 	private CustomerService customerService;
 
-	@GetMapping("/abc")
-	public Flux<Customer> findAllClienta() {
-		//cambio app
+	@GetMapping("/")
+	public Flux<Customer> findAllClient() {
 		return customerService.findAll();
 	}
 
-	@GetMapping("/")
-	public Flux<ResponseEntity<ServerResponse>> findAllClient() {
+	@GetMapping("/findByClient/{dni}")
+	public Mono<ResponseEntity<Customer>> findByClient(@PathVariable("dni") String dni) {
+		return customerService.findByDni(dni)
+				.map(ResponseEntity::ok)
+				.defaultIfEmpty(ResponseEntity.notFound().build());
+	}
+
+	@GetMapping("/-")
+	public Flux<ResponseEntity<ServerResponse>> findAllClient_() {
 		return customerService.findAll()
 				.map(
 						customer -> {
@@ -56,8 +63,8 @@ public class CustomerController {
 				);
 	}
 
-	@GetMapping("/findByClient/{dni}")
-	public Mono<ResponseEntity<ServerResponse>> findByClient(@PathVariable("dni") String dni) {
+	@GetMapping("/findByClient-/{dni}")
+	public Mono<ResponseEntity<ServerResponse>> findByClient_(@PathVariable("dni") String dni) {
 		return customerService.findByDni(dni)
 				.map(
 						customer -> {

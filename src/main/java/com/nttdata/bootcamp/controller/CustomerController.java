@@ -28,6 +28,12 @@ public class CustomerController {
 	@Autowired
 	private CustomerService customerService;
 
+	@GetMapping("/abc")
+	public Flux<Customer> findAllClienta() {
+		return customerService.findAll()
+				;
+	}
+
 	@GetMapping("/")
 	public Flux<ResponseEntity<ServerResponse>> findAllClient() {
 		return customerService.findAll()
@@ -50,7 +56,7 @@ public class CustomerController {
 				);
 	}
 
-	@GetMapping("/{dni}")
+	@GetMapping("/findByClient/{dni}")
 	public Mono<ResponseEntity<ServerResponse>> findByClient(@PathVariable("dni") String dni) {
 		return customerService.findByDni(dni)
 				.map(

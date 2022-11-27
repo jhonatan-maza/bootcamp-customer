@@ -11,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+//Service implementation
 @Service
 public class CustomerServiceImpl implements CustomerService {
     @Autowired
@@ -37,16 +38,18 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Mono<Customer> update(String dni, String status) {
-        Mono<Customer> customerMono = findByDni(dni);
+    public Mono<Customer> update(Customer dataCustomer) {
+        Mono<Customer> customerMono = findByDni(dataCustomer.getDni());
         Customer customer = customerMono.block();
-        customer.setStatus(status);
+        customer.setStatus(dataCustomer.getStatus());
         return customerRepository.save(customer);
     }
 
     @Override
-    public Mono<Void> delete() {
-        return null;
+    public Mono<Void> delete(String dni) {
+        Mono<Customer> customerMono = findByDni(dni);
+        Customer customer = customerMono.block();
+        return customerRepository.delete(customer);
     }
 
 }

@@ -58,29 +58,27 @@ public class CustomerController {
 
 	//Update customer
 	@PutMapping("/update/{dni}")
-	public ResponseEntity<Mono<?>> updateCustomer(@PathVariable("dni") String dni,
+	public Mono<Customer> updateCustomer(@PathVariable("dni") String dni,
 													   @Valid @RequestBody Customer dataCustomer) {
+
 		Mono.just(dataCustomer).doOnNext(t -> {
-					dataCustomer.setDni(dni);
+
+					t.setDni(dni);
 					t.setModificationDate(new Date());
 
 				}).onErrorReturn(dataCustomer).onErrorResume(e -> Mono.just(dataCustomer))
 				.onErrorMap(f -> new InterruptedException(f.getMessage())).subscribe(x -> LOGGER.info(x.toString()));
 
-		Mono<Customer> pAsset = customerService.update(dataCustomer);
-
-		if (pAsset != null) {
-			return new ResponseEntity<>(pAsset, HttpStatus.CREATED);
-		}
-		return new ResponseEntity<>(Mono.just(new Customer()), HttpStatus.I_AM_A_TEAPOT);
+		Mono<Customer> updateCustomer = customerService.update(dataCustomer);
+		return updateCustomer;
 	}
 
 	//Delete customer
 	@DeleteMapping("/delete/{dni}")
-	public ResponseEntity<Mono<Void>> deleteCustomer(@PathVariable("dni") String dni) {
+	public Mono<Void> deleteCustomer(@PathVariable("dni") String dni) {
 		LOGGER.info("Deleting client by DNI: " + dni);
-		Mono<Void> delete = customerService.delete(dni);
-		return ResponseEntity.noContent().build();
+		Mono<Void> deleteCustomer = customerService.delete(dni);
+		return deleteCustomer;
 	}
 
 }

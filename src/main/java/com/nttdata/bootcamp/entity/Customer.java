@@ -23,22 +23,17 @@ public class Customer {
     private String id;
 
     private String dni;
-
     private String name;
-
     private String surName;
-
     private String address;
-
+    private String type;
     private String status;
 
-    //private List<CustomerType> customerType;
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @CreatedDate
     private Date creationDate;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @LastModifiedDate
     private Date modificationDate;
 

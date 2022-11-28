@@ -29,9 +29,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Flux<Customer> findAll() {
         Flux<Customer> customers = customerRepository.findAll();
-        return customers
-                .flatMap(x -> customers)
-                .switchIfEmpty(Mono.<Customer>error(new Error("No existen registros")));
+        return customers;
     }
 
     @Override
@@ -40,15 +38,13 @@ public class CustomerServiceImpl implements CustomerService {
                 .findAll()
                 .filter(x -> x.getDni().equals(dni))
                 .next();
-        return customer
-                .flatMap(x -> customer)
-                .switchIfEmpty(Mono.<Customer>error(new Error("El cliente con dni " + dni + " NO EXISTE")));
+        return customer;
     }
 
     @Override
     public Mono<Customer> save(Customer dataCustomer) {
         Mono<Customer> customerMono = findByDni(dataCustomer.getDni())
-                .flatMap(__ -> Mono.<Customer>error(new Error("El cliente con dni " + dataCustomer.getDni() + " YA EXISTE")))
+                .flatMap(__ -> Mono.<Customer>error(new Error("El cliente xxx con dni " + dataCustomer.getDni() + " YA EXISTE")))
                 .switchIfEmpty(customerRepository.save(dataCustomer));
         return customerMono;
     }
@@ -59,9 +55,9 @@ public class CustomerServiceImpl implements CustomerService {
                 //.delayElement(Duration.ofMillis(1000));
         try {
             dataCustomer.setId(customerMono.block().getId());
+            dataCustomer.setTypeCustomer(customerMono.block().getTypeCustomer());
             dataCustomer.setName(customerMono.block().getName());
             dataCustomer.setSurName(customerMono.block().getSurName());
-            dataCustomer.setType(customerMono.block().getType());
             dataCustomer.setCreationDate(customerMono.block().getCreationDate());
             return customerRepository.save(dataCustomer);
         }catch (Exception e){

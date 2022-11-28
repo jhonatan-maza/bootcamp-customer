@@ -23,10 +23,10 @@ public class Customer {
     private String id;
 
     private String dni;
+    private String typeCustomer;
     private String name;
     private String surName;
     private String address;
-    private String type;
     private String status;
 
     @JsonFormat(pattern = "yyyy-MM-dd")

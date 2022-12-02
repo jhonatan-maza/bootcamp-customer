@@ -9,7 +9,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 @SpringBootApplication
 @EnableEurekaClient
 @OpenAPIDefinition(info =
-	@Info(title = "Employee API", version = "1.0", description = "Documentation Employee API v1.0")
+	@Info(title = "Customer API", version = "1.0", description = "Documentation Customer API v1.0")
 )
 public class BootcampApplication {
 

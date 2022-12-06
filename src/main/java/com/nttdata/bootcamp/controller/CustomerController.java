@@ -2,22 +2,16 @@ package com.nttdata.bootcamp.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.nttdata.bootcamp.entity.enums.Status;
 import com.nttdata.bootcamp.service.CustomerService;
-import com.nttdata.bootcamp.util.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import com.nttdata.bootcamp.entity.Customer;
-
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
 import java.util.Date;
 import javax.validation.Valid;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value = "/customer")
 public class CustomerController {

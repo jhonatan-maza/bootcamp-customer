@@ -24,6 +24,8 @@ public class Customer {
 
     private String dni;
     private String typeCustomer;
+    private Boolean flagVip;
+    private Boolean flagPyme;
     private String name;
     private String surName;
     private String address;

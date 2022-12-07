@@ -56,6 +56,8 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             dataCustomer.setId(customerMono.block().getId());
             dataCustomer.setTypeCustomer(customerMono.block().getTypeCustomer());
+            dataCustomer.setFlagVip(customerMono.block().getFlagVip());
+            dataCustomer.setFlagPyme(customerMono.block().getFlagPyme());
             dataCustomer.setName(customerMono.block().getName());
             dataCustomer.setSurName(customerMono.block().getSurName());
             dataCustomer.setCreationDate(customerMono.block().getCreationDate());

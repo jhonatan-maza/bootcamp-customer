@@ -50,7 +50,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Mono<Customer> update(Customer dataCustomer) {
+    public Mono<Customer> updateAddress(Customer dataCustomer) {
         Mono<Customer> customerMono = findByDni(dataCustomer.getDni());
                 //.delayElement(Duration.ofMillis(1000));
         try {
@@ -60,6 +60,26 @@ public class CustomerServiceImpl implements CustomerService {
             dataCustomer.setFlagPyme(customerMono.block().getFlagPyme());
             dataCustomer.setName(customerMono.block().getName());
             dataCustomer.setSurName(customerMono.block().getSurName());
+            dataCustomer.setStatus(customerMono.block().getStatus());
+            dataCustomer.setCreationDate(customerMono.block().getCreationDate());
+            return customerRepository.save(dataCustomer);
+        }catch (Exception e){
+            return Mono.<Customer>error(new Error("El cliente con dni " + dataCustomer.getDni() + " NO EXISTE"));
+        }
+    }
+
+    @Override
+    public Mono<Customer> updateStatus(Customer dataCustomer) {
+        Mono<Customer> customerMono = findByDni(dataCustomer.getDni());
+        //.delayElement(Duration.ofMillis(1000));
+        try {
+            dataCustomer.setId(customerMono.block().getId());
+            dataCustomer.setTypeCustomer(customerMono.block().getTypeCustomer());
+            dataCustomer.setFlagVip(customerMono.block().getFlagVip());
+            dataCustomer.setFlagPyme(customerMono.block().getFlagPyme());
+            dataCustomer.setName(customerMono.block().getName());
+            dataCustomer.setSurName(customerMono.block().getSurName());
+            dataCustomer.setAddress(customerMono.block().getAddress());
             dataCustomer.setCreationDate(customerMono.block().getCreationDate());
             return customerRepository.save(dataCustomer);
         }catch (Exception e){

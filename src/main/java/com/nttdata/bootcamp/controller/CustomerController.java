@@ -1,8 +1,9 @@
 package com.nttdata.bootcamp.controller;
 
 import com.nttdata.bootcamp.entity.dto.BusinessCustomerDto;
-import com.nttdata.bootcamp.entity.dto.CustomerUpdateDto;
+import com.nttdata.bootcamp.entity.dto.UpdateAddressDto;
 import com.nttdata.bootcamp.entity.dto.PersonalCustomerDto;
+import com.nttdata.bootcamp.entity.dto.UpdateStatusDto;
 import com.nttdata.bootcamp.util.Constant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,21 +86,37 @@ public class CustomerController {
 		return newCustomer;
 	}
 
-	//Update customer
-	@PutMapping("/updateCustomer/{dni}")
-	public Mono<Customer> updateCustomer(@PathVariable("dni") String dni,
-													   @Valid @RequestBody CustomerUpdateDto customer) {
+	//Update address customer
+	@PutMapping("/updateCustomerAddress/{dni}")
+	public Mono<Customer> updateCustomerAddress(@PathVariable("dni") String dni,
+										 @Valid @RequestBody UpdateAddressDto customer) {
 
 		Customer dataCustomer = new Customer();
 		Mono.just(dataCustomer).doOnNext(t -> {
 					t.setDni(dni);
 					t.setAddress(customer.getAddress());
+					t.setModificationDate(new Date());
+				}).onErrorReturn(dataCustomer).onErrorResume(e -> Mono.just(dataCustomer))
+				.onErrorMap(f -> new InterruptedException(f.getMessage())).subscribe(x -> LOGGER.info(x.toString()));
+
+		Mono<Customer> updateCustomer = customerService.updateAddress(dataCustomer);
+		return updateCustomer;
+	}
+
+	//Update status customer
+	@PutMapping("/updateCustomerStatus/{dni}")
+	public Mono<Customer> updateCustomerStatus(@PathVariable("dni") String dni,
+										 @Valid @RequestBody UpdateStatusDto customer) {
+
+		Customer dataCustomer = new Customer();
+		Mono.just(dataCustomer).doOnNext(t -> {
+					t.setDni(dni);
 					t.setStatus(customer.getStatus());
 					t.setModificationDate(new Date());
 				}).onErrorReturn(dataCustomer).onErrorResume(e -> Mono.just(dataCustomer))
 				.onErrorMap(f -> new InterruptedException(f.getMessage())).subscribe(x -> LOGGER.info(x.toString()));
 
-		Mono<Customer> updateCustomer = customerService.update(dataCustomer);
+		Mono<Customer> updateCustomer = customerService.updateStatus(dataCustomer);
 		return updateCustomer;
 	}
 

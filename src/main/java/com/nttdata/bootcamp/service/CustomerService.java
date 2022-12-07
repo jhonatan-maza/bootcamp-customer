@@ -10,7 +10,8 @@ public interface CustomerService {
     public Flux<Customer> findAll();
     public Mono<Customer> findByDni(String dni);
     public Mono<Customer> save(Customer customer);
-    public Mono<Customer> update(Customer dataCustomer);
+    public Mono<Customer> updateAddress(Customer dataCustomer);
+    public Mono<Customer> updateStatus(Customer dataCustomer);
     public Mono<Void> delete(String dni);
 
 }

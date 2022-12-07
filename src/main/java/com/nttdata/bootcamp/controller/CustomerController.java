@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.nttdata.bootcamp.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.nttdata.bootcamp.entity.Customer;
 import reactor.core.publisher.Flux;
@@ -56,7 +57,7 @@ public class CustomerController {
 			t.setStatus(Constant.CUSTOMER_ACTIVE);
 			t.setCreationDate(new Date());
 			t.setModificationDate(new Date());
-			}).onErrorReturn(dataCustomer).onErrorResume(e -> Mono.just(dataCustomer))
+		}).onErrorReturn(dataCustomer).onErrorResume(e -> Mono.just(dataCustomer))
 				.onErrorMap(f -> new InterruptedException(f.getMessage())).subscribe(x -> LOGGER.info(x.toString()));
 
 		Mono<Customer> newCustomer = customerService.save(dataCustomer);
@@ -69,17 +70,17 @@ public class CustomerController {
 
 		Customer dataCustomer = new Customer();
 		Mono.just(dataCustomer).doOnNext(t -> {
-					t.setDni(customer.getDni());
-					t.setTypeCustomer(Constant.BUSINESS_CUSTOMER);
-					t.setFlagVip(false);
-					t.setFlagPyme(customer.getFlagPyme());
-					t.setName(customer.getName());
-					t.setSurName(customer.getSurName());
-					t.setAddress(customer.getAddress());
-					t.setStatus(Constant.CUSTOMER_ACTIVE);
-					t.setCreationDate(new Date());
-					t.setModificationDate(new Date());
-				}).onErrorReturn(dataCustomer).onErrorResume(e -> Mono.just(dataCustomer))
+			t.setDni(customer.getDni());
+			t.setTypeCustomer(Constant.BUSINESS_CUSTOMER);
+			t.setFlagVip(false);
+			t.setFlagPyme(customer.getFlagPyme());
+			t.setName(customer.getName());
+			t.setSurName(customer.getSurName());
+			t.setAddress(customer.getAddress());
+			t.setStatus(Constant.CUSTOMER_ACTIVE);
+			t.setCreationDate(new Date());
+			t.setModificationDate(new Date());
+		}).onErrorReturn(dataCustomer).onErrorResume(e -> Mono.just(dataCustomer))
 				.onErrorMap(f -> new InterruptedException(f.getMessage())).subscribe(x -> LOGGER.info(x.toString()));
 
 		Mono<Customer> newCustomer = customerService.save(dataCustomer);
@@ -93,10 +94,10 @@ public class CustomerController {
 
 		Customer dataCustomer = new Customer();
 		Mono.just(dataCustomer).doOnNext(t -> {
-					t.setDni(dni);
-					t.setAddress(customer.getAddress());
-					t.setModificationDate(new Date());
-				}).onErrorReturn(dataCustomer).onErrorResume(e -> Mono.just(dataCustomer))
+			t.setDni(dni);
+			t.setAddress(customer.getAddress());
+			t.setModificationDate(new Date());
+		}).onErrorReturn(dataCustomer).onErrorResume(e -> Mono.just(dataCustomer))
 				.onErrorMap(f -> new InterruptedException(f.getMessage())).subscribe(x -> LOGGER.info(x.toString()));
 
 		Mono<Customer> updateCustomer = customerService.updateAddress(dataCustomer);
@@ -110,10 +111,10 @@ public class CustomerController {
 
 		Customer dataCustomer = new Customer();
 		Mono.just(dataCustomer).doOnNext(t -> {
-					t.setDni(dni);
-					t.setStatus(customer.getStatus());
-					t.setModificationDate(new Date());
-				}).onErrorReturn(dataCustomer).onErrorResume(e -> Mono.just(dataCustomer))
+			t.setDni(dni);
+			t.setStatus(customer.getStatus());
+			t.setModificationDate(new Date());
+		}).onErrorReturn(dataCustomer).onErrorResume(e -> Mono.just(dataCustomer))
 				.onErrorMap(f -> new InterruptedException(f.getMessage())).subscribe(x -> LOGGER.info(x.toString()));
 
 		Mono<Customer> updateCustomer = customerService.updateStatus(dataCustomer);
@@ -122,10 +123,10 @@ public class CustomerController {
 
 	//Delete customer
 	@DeleteMapping("/delete/{dni}")
-	public Mono<Void> deleteCustomer(@PathVariable("dni") String dni) {
+	public ResponseEntity<Mono<Void>> deleteCustomer(@PathVariable("dni") String dni) {
 		LOGGER.info("Deleting client by DNI: " + dni);
 		Mono<Void> deleteCustomer = customerService.delete(dni);
-		return deleteCustomer;
+		return ResponseEntity.noContent().build();
 	}
 
 }

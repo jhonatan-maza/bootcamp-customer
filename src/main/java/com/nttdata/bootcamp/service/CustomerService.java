@@ -7,11 +7,11 @@ import reactor.core.publisher.Mono;
 //Interface Service
 public interface CustomerService {
 
-    public Flux<Customer> findAll();
-    public Mono<Customer> findByDni(String dni);
-    public Mono<Customer> save(Customer customer);
-    public Mono<Customer> updateAddress(Customer dataCustomer);
-    public Mono<Customer> updateStatus(Customer dataCustomer);
-    public Mono<Void> delete(String dni);
+    Flux<Customer> findAll();
+    Mono<Customer> findByDni(String dni);
+    Mono<Customer> save(Customer customer);
+    Mono<Customer> updateAddress(Customer dataCustomer);
+    Mono<Customer> updateStatus(Customer dataCustomer);
+    Mono<Void> delete(String dni);
 
 }

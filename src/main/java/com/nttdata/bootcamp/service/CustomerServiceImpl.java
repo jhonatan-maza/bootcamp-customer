@@ -44,7 +44,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Mono<Customer> save(Customer dataCustomer) {
         Mono<Customer> customerMono = findByDni(dataCustomer.getDni())
-                .flatMap(__ -> Mono.<Customer>error(new Error("El cliente xxx con dni " + dataCustomer.getDni() + " YA EXISTE")))
+                .flatMap(__ -> Mono.<Customer>error(new Error("El cliente con dni " + dataCustomer.getDni() + " YA EXISTE")))
                 .switchIfEmpty(customerRepository.save(dataCustomer));
         return customerMono;
     }
@@ -54,15 +54,10 @@ public class CustomerServiceImpl implements CustomerService {
         Mono<Customer> customerMono = findByDni(dataCustomer.getDni());
                 //.delayElement(Duration.ofMillis(1000));
         try {
-            dataCustomer.setId(customerMono.block().getId());
-            dataCustomer.setTypeCustomer(customerMono.block().getTypeCustomer());
-            dataCustomer.setFlagVip(customerMono.block().getFlagVip());
-            dataCustomer.setFlagPyme(customerMono.block().getFlagPyme());
-            dataCustomer.setName(customerMono.block().getName());
-            dataCustomer.setSurName(customerMono.block().getSurName());
-            dataCustomer.setStatus(customerMono.block().getStatus());
-            dataCustomer.setCreationDate(customerMono.block().getCreationDate());
-            return customerRepository.save(dataCustomer);
+            Customer customer = customerMono.block();
+            customer.setAddress(dataCustomer.getAddress());
+            customer.setModificationDate(dataCustomer.getModificationDate());
+            return customerRepository.save(customer);
         }catch (Exception e){
             return Mono.<Customer>error(new Error("El cliente con dni " + dataCustomer.getDni() + " NO EXISTE"));
         }
@@ -73,14 +68,9 @@ public class CustomerServiceImpl implements CustomerService {
         Mono<Customer> customerMono = findByDni(dataCustomer.getDni());
         //.delayElement(Duration.ofMillis(1000));
         try {
-            dataCustomer.setId(customerMono.block().getId());
-            dataCustomer.setTypeCustomer(customerMono.block().getTypeCustomer());
-            dataCustomer.setFlagVip(customerMono.block().getFlagVip());
-            dataCustomer.setFlagPyme(customerMono.block().getFlagPyme());
-            dataCustomer.setName(customerMono.block().getName());
-            dataCustomer.setSurName(customerMono.block().getSurName());
-            dataCustomer.setAddress(customerMono.block().getAddress());
-            dataCustomer.setCreationDate(customerMono.block().getCreationDate());
+            Customer customer = customerMono.block();
+            customer.setStatus(dataCustomer.getStatus());
+            customer.setModificationDate(dataCustomer.getModificationDate());
             return customerRepository.save(dataCustomer);
         }catch (Exception e){
             return Mono.<Customer>error(new Error("El cliente con dni " + dataCustomer.getDni() + " NO EXISTE"));

@@ -1,24 +1,12 @@
-package com.nttdata.bootcamp.service;
+package com.nttdata.bootcamp.service.impl;
 
-import ch.qos.logback.core.status.ErrorStatus;
 import com.nttdata.bootcamp.entity.Customer;
 import com.nttdata.bootcamp.repository.CustomerRepository;
-import org.apache.logging.log4j.message.Message;
-import org.bouncycastle.asn1.cmp.ErrorMsgContent;
+import com.nttdata.bootcamp.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.Errors;
-import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.text.MessageFormat;
-import java.time.Duration;
-import java.util.DuplicateFormatFlagsException;
-import java.util.function.Supplier;
 
 //Service implementation
 @Service

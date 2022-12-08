@@ -41,7 +41,7 @@ public class CustomerController {
 		return customerService.findByDni(dni);
 	}
 
-	//Save personal customer
+	//Save personal customer --ok
 	@PostMapping(value = "/savePersonalCustomer")
 	public Mono<Customer> savePersonalCustomer(@RequestBody PersonalCustomerDto customer){
 
